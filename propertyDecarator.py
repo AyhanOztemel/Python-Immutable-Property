@@ -1,56 +1,67 @@
 from immutableDecarator import immutable_property
 
 class Circle:
-    def __init__(self, radius):
-        self.__radius = radius
-        
-    
-    @property
+    def __init__(self, radius, x,y,z):
+        self._radius = radius
+        self._x = x
+        self._y = y
+        self.z = z
+
+    @immutable_property
     def radius(self):
-        """Dairenin yarıçapını döndürür."""
-        return self.__radius
-    
-    @radius.setter
-    @immutable_property 
-    def radius(self, value):
-        #Dairenin yarıçapını ayarlar.
-        if value <= 0:
-            raise ValueError("Yarıçap sıfırdan büyük olmalıdır.")
-        self.__radius = value
+        return self._radius
 
-    @property
-    def diameter(self):
-        """Dairenin çapını döndürür."""
-        return 2 * self.__radius
+    @immutable_property
+    def x(self):
+        return self._x
     
     @property
-    def circle(self):
-        """Dairenin çapını döndürür."""
-        return 2 * self.__radius * 3.14
-
-    @property
-    def area(self):
-        """Dairenin alanını hesaplar."""
-        return 3.14 * self.__radius ** 2
-
-# Örnek kullanım
-c = Circle(8)
+    def y(self):
+        return self._y
     
-print("Yarıçap:", c.radius)
-print("Çap:", c.diameter)
-print("çevresi:", c.circle)
-print("Alan:", c.area)
-print("--------------------------")
+    @y.setter
+    def y(self, value):
+        self._y = value
+    
 
+# Test the implementation
+c = Circle(10, 5,11,15)
+print("c.radius-->",c.radius)  # Output: 10
+print("c.x--->",c.x)           # Output: 5
+print("c.y--->",c.y)           # Output: 11
+print("c.z--->",c.z)           # Output: 15
+
+#Example-1
 try:
-    c.radius = 5    # !!!HATA VERİR  @immutable_property
-except Exception as e:
-    e="Hata!!! immutable_property"
-    print(e)
+    c.radius = 15  # This should raise an exception
+    print(c.radius)
+except AttributeError as e:
+    print(e)  # Output: Cannot be assigned immutable property 'radius'
+    
+#Example-2
+try:
+    c.x = 10  # This should raise an exception
+    print(c.x)
+except AttributeError as e:
+    print(e)  # Output: Cannot be assigned immutable property 'x'
+    
+#Example-3 
+try:
+    c.y = 10  # This should raise an exception
+    print("c.y--->",c.y)
+except AttributeError as e:
+    print(e)  # Output: 10
+    
+#Example-4
+try:
+    c.z = 20  # This should raise an exception
+    print("c.z--->",c.z)
+except AttributeError as e:
+    print(e)  # Output: 20
 
-c = Circle(10)
-print("--------------------------")
-print("Yeni yarıçap:", c.radius)
-print("Yeni çap:", c.diameter)
-print("Yeni çevresi:", c.circle)
-print("Yeni alan:", c.area)
+#Example-5 
+c = Circle(25,415,121,185)
+print("c.radius-->",c.radius)  # Output: 25
+print("c.x--->",c.x)           # Output: 415
+print("c.y--->",c.y)           # Output: 121
+print("c.z--->",c.z)           # Output: 185
